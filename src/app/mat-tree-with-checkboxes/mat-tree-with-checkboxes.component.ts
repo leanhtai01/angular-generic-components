@@ -132,19 +132,19 @@ const DATA: LayerManagerInfoDto = {
 /**
  * Node for item
  */
-export class LayerItemNode {
-  constructor(public item: string, public children: LayerItemNode[], public data?: LayerManagerInfo) {}
+export class ItemNode {
+  constructor(public item: string, public children: ItemNode[], public data?: any) {}
 }
 
 /**
  * Flat item node with expandable and level information
  */
-export class LayerItemFlatNode {
+export class ItemFlatNode {
   constructor(
     public item: string,
     public level: number,
     public expandable: boolean,
-    public data?: LayerManagerInfo
+    public data?: any
   ) {}
 }
 
@@ -158,11 +158,11 @@ const LAYERS: any = {
   'layer7Managers': 'Layer 7'
 };
 
-function buildTree(): LayerItemNode[] {
-  let listNode: LayerItemNode[] = [];
+function buildTree(): ItemNode[] {
+  let listNode: ItemNode[] = [];
 
   Object.entries(DATA).forEach(([key, managers]) => {
-    const layer: LayerItemNode = {
+    const layer: ItemNode = {
       item: LAYERS[key],
       children: [],
     };
@@ -175,7 +175,7 @@ function buildTree(): LayerItemNode[] {
         orgId: any;
         orgName: any;
       }) => {
-        const manager: LayerItemNode = {
+        const manager: ItemNode = {
           item: managerInfo.managerName,
           children: [],
           data: {
@@ -204,19 +204,19 @@ function buildTree(): LayerItemNode[] {
 })
 export class MatTreeWithCheckboxesComponent {
   /** Map from flat node to nested node. This helps us find the nested node to be modified */
-  flatNodeMap = new Map<LayerItemFlatNode, LayerItemNode>();
+  flatNodeMap = new Map<ItemFlatNode, ItemNode>();
 
   /** Map from nested node to flattened node. This helps us to keep the same object for selection */
-  nestedNodeMap = new Map<LayerItemNode, LayerItemFlatNode>();
+  nestedNodeMap = new Map<ItemNode, ItemFlatNode>();
 
-  treeControl: FlatTreeControl<LayerItemFlatNode>;
+  treeControl: FlatTreeControl<ItemFlatNode>;
 
-  treeFlattener: MatTreeFlattener<LayerItemNode, LayerItemFlatNode>;
+  treeFlattener: MatTreeFlattener<ItemNode, ItemFlatNode>;
 
-  dataSource: MatTreeFlatDataSource<LayerItemNode, LayerItemFlatNode>;
+  dataSource: MatTreeFlatDataSource<ItemNode, ItemFlatNode>;
 
   /** The selection for checklist */
-  checklistSelection = new SelectionModel<LayerItemFlatNode>(
+  checklistSelection = new SelectionModel<ItemFlatNode>(
     true /* multiple */
   );
 
@@ -227,7 +227,7 @@ export class MatTreeWithCheckboxesComponent {
       this.isExpandable,
       this.getChildren
     );
-    this.treeControl = new FlatTreeControl<LayerItemFlatNode>(
+    this.treeControl = new FlatTreeControl<ItemFlatNode>(
       this.getLevel,
       this.isExpandable
     );
@@ -241,23 +241,23 @@ export class MatTreeWithCheckboxesComponent {
     this.dataSource.data = buildTree();
   }
 
-  getLevel = (node: LayerItemFlatNode) => node.level;
+  getLevel = (node: ItemFlatNode) => node.level;
 
-  isExpandable = (node: LayerItemFlatNode) => node.expandable;
+  isExpandable = (node: ItemFlatNode) => node.expandable;
 
-  getChildren = (node: LayerItemNode): LayerItemNode[] => node.children;
+  getChildren = (node: ItemNode): ItemNode[] => node.children;
 
-  hasChild = (_: number, _nodeData: LayerItemFlatNode) => _nodeData.expandable;
+  hasChild = (_: number, _nodeData: ItemFlatNode) => _nodeData.expandable;
 
   /**
    * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
    */
-  transformer = (node: LayerItemNode, level: number) => {
+  transformer = (node: ItemNode, level: number) => {
     const existingNode = this.nestedNodeMap.get(node);
     const flatNode =
       existingNode && existingNode.item === node.item
         ? existingNode
-        : new LayerItemFlatNode('', 0, false);
+        : new ItemFlatNode('', 0, false);
     flatNode.item = node.item;
     flatNode.level = level;
     flatNode.expandable = !!node.children?.length;
@@ -268,7 +268,7 @@ export class MatTreeWithCheckboxesComponent {
   };
 
   /** Whether all the descendants of the node are selected. */
-  descendantsAllSelected(node: LayerItemFlatNode): boolean {
+  descendantsAllSelected(node: ItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
     return (
       descendants.length > 0 &&
@@ -277,7 +277,7 @@ export class MatTreeWithCheckboxesComponent {
   }
 
   /** Whether part of the descendants are selected */
-  descendantsPartiallySelected(node: LayerItemFlatNode): boolean {
+  descendantsPartiallySelected(node: ItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
     const result = descendants.some((child) =>
       this.checklistSelection.isSelected(child)
@@ -286,7 +286,7 @@ export class MatTreeWithCheckboxesComponent {
   }
 
   /** Toggle the to-do item selection. Select/deselect all the descendants node */
-  todoItemSelectionToggle(node: LayerItemFlatNode): void {
+  todoItemSelectionToggle(node: ItemFlatNode): void {
     this.checklistSelection.toggle(node);
     const descendants = this.treeControl.getDescendants(node);
     if (this.checklistSelection.isSelected(node)) {
@@ -302,15 +302,15 @@ export class MatTreeWithCheckboxesComponent {
   }
 
   /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
-  todoLeafItemSelectionToggle(node: LayerItemFlatNode): void {
+  todoLeafItemSelectionToggle(node: ItemFlatNode): void {
     this.checklistSelection.toggle(node);
     this.checkAllParentsSelection(node);
     console.log(this.checklistSelection.selected);
   }
 
   /* Checks all the parents when a leaf node is selected/unselected */
-  checkAllParentsSelection(node: LayerItemFlatNode): void {
-    let parent: LayerItemFlatNode | null = this.getParentNode(node);
+  checkAllParentsSelection(node: ItemFlatNode): void {
+    let parent: ItemFlatNode | null = this.getParentNode(node);
     while (parent) {
       this.checkRootNodeSelection(parent);
       parent = this.getParentNode(parent);
@@ -318,7 +318,7 @@ export class MatTreeWithCheckboxesComponent {
   }
 
   /** Check root node checked state and change it accordingly */
-  checkRootNodeSelection(node: LayerItemFlatNode): void {
+  checkRootNodeSelection(node: ItemFlatNode): void {
     const nodeSelected = this.checklistSelection.isSelected(node);
     const descendants = this.treeControl.getDescendants(node);
     const descAllSelected =
@@ -332,7 +332,7 @@ export class MatTreeWithCheckboxesComponent {
   }
 
   /* Get the parent node of a node */
-  getParentNode(node: LayerItemFlatNode): LayerItemFlatNode | null {
+  getParentNode(node: ItemFlatNode): ItemFlatNode | null {
     const currentLevel = this.getLevel(node);
 
     if (currentLevel < 1) {
