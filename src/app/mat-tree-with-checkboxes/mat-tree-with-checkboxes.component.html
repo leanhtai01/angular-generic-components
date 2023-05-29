@@ -3,9 +3,7 @@
     <button mat-icon-button disabled></button>
     <mat-checkbox class="checklist-leaf-node" [checked]="checklistSelection.isSelected(node)"
                   (change)="todoLeafItemSelectionToggle(node)">
-      {{node.data.managerName}} - {{node.data.managerId}}<br>
-      {{node.data.managerEmail}}<br>
-      {{node.data.orgName}}
+      {{node.item}}
     </mat-checkbox>
   </mat-tree-node>
 
