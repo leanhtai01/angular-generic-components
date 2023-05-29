@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  ItemNode,
-  LayerManagerInfoDto,
+  ItemNode
 } from './mat-tree-with-checkboxes/mat-tree-with-checkboxes.component';
+import { LayerInfo } from './interface/layer-info.interface';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +10,8 @@ import {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  DATA: LayerManagerInfoDto = {
-    layer1Managers: [
+  DATA: LayerInfo = {
+    layer1: [
       {
         managerId: 11581385,
         managerName: 'Salvino, Mike Joseph',
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
         orgName: 'DXC Technology',
       },
     ],
-    layer2Managers: [
+    layer2: [
       {
         managerId: 583173,
         managerName: 'Sharp, Ken P',
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
         orgName: 'Corp Fn - Legal',
       },
     ],
-    layer3Managers: [
+    layer3: [
       {
         managerId: 9015882,
         managerName: 'Copley, Natasha',
@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
         orgName: 'Global Cyber Security',
       },
     ],
-    layer4Managers: [
+    layer4: [
       {
         managerId: 11744547,
         managerName: 'Gilmore, Lou Anne',
@@ -68,7 +68,7 @@ export class AppComponent implements OnInit {
         orgName: 'Nordics',
       },
     ],
-    layer5Managers: [
+    layer5: [
       {
         managerId: 20408890,
         managerName: 'Kochan, Kamilia',
@@ -84,7 +84,7 @@ export class AppComponent implements OnInit {
         orgName: 'External Communications, PR',
       },
     ],
-    layer6Managers: [
+    layer6: [
       {
         managerId: 11721271,
         managerName: 'Ralph, Glen Dale',
@@ -100,7 +100,7 @@ export class AppComponent implements OnInit {
         orgName: 'ES CA BC Public Sector - Advanced Solutions',
       },
     ],
-    layer7Managers: [
+    layer7: [
       {
         managerId: 75006424,
         managerName: 'Ølholm, Arnita',
@@ -126,15 +126,15 @@ export class AppComponent implements OnInit {
     this.treeDataSource = this.buildLayerWithManagersTree(this.DATA);
   }
 
-  buildLayerWithManagersTree(data: LayerManagerInfoDto): ItemNode[] {
+  buildLayerWithManagersTree(data: LayerInfo): ItemNode[] {
     const LAYERS: any = {
-      layer1Managers: 'Layer 1',
-      layer2Managers: 'Layer 2',
-      layer3Managers: 'Layer 3',
-      layer4Managers: 'Layer 4',
-      layer5Managers: 'Layer 5',
-      layer6Managers: 'Layer 6',
-      layer7Managers: 'Layer 7',
+      layer1: 'Layer 1',
+      layer2: 'Layer 2',
+      layer3: 'Layer 3',
+      layer4: 'Layer 4',
+      layer5: 'Layer 5',
+      layer6: 'Layer 6',
+      layer7: 'Layer 7',
     };
 
     const listNode: ItemNode[] = [];

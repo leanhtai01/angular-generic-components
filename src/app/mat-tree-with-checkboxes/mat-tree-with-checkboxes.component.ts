@@ -3,24 +3,6 @@ import {FlatTreeControl} from "@angular/cdk/tree";
 import {MatTreeFlatDataSource, MatTreeFlattener} from "@angular/material/tree";
 import {SelectionModel} from "@angular/cdk/collections";
 
-export interface LayerManagerInfo {
-  managerId: number;
-  managerName: string;
-  managerEmail: string;
-  orgId: string;
-  orgName: string;
-}
-
-export interface LayerManagerInfoDto {
-  layer1Managers: LayerManagerInfo[];
-  layer2Managers: LayerManagerInfo[];
-  layer3Managers: LayerManagerInfo[];
-  layer4Managers: LayerManagerInfo[];
-  layer5Managers: LayerManagerInfo[];
-  layer6Managers: LayerManagerInfo[];
-  layer7Managers: LayerManagerInfo[];
-}
-
 /**
  * Node for item
  */
