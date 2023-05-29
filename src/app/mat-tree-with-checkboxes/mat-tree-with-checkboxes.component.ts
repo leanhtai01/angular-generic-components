@@ -148,20 +148,20 @@ export class ItemFlatNode {
   ) {}
 }
 
-const LAYERS: any = {
-  'layer1Managers': 'Layer 1',
-  'layer2Managers': 'Layer 2',
-  'layer3Managers': 'Layer 3',
-  'layer4Managers': 'Layer 4',
-  'layer5Managers': 'Layer 5',
-  'layer6Managers': 'Layer 6',
-  'layer7Managers': 'Layer 7'
-};
+function buildLayerWithManagerTree(data: LayerManagerInfoDto): ItemNode[] {
+  const LAYERS: any = {
+    layer1Managers: 'Layer 1',
+    layer2Managers: 'Layer 2',
+    layer3Managers: 'Layer 3',
+    layer4Managers: 'Layer 4',
+    layer5Managers: 'Layer 5',
+    layer6Managers: 'Layer 6',
+    layer7Managers: 'Layer 7',
+  };
 
-function buildTree(): ItemNode[] {
-  let listNode: ItemNode[] = [];
+  const listNode: ItemNode[] = [];
 
-  Object.entries(DATA).forEach(([key, managers]) => {
+  Object.entries(data).forEach(([key, managers]) => {
     const layer: ItemNode = {
       item: LAYERS[key],
       children: [],
@@ -238,7 +238,7 @@ export class MatTreeWithCheckboxesComponent {
   }
 
   ngOnInit(): void {
-    this.dataSource.data = buildTree();
+    this.dataSource.data = buildLayerWithManagerTree(DATA);
   }
 
   getLevel = (node: ItemFlatNode) => node.level;
