@@ -8,11 +8,11 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ItemFlatNode, ItemNode } from '../model/generic-tree-node.model';
 
 @Component({
-  selector: 'efp-mat-tree-with-checkboxes',
-  templateUrl: './mat-tree-with-checkboxes.component.html',
-  styleUrls: ['./mat-tree-with-checkboxes.component.scss'],
+  selector: 'efp-generic-tree-with-checkboxes',
+  templateUrl: './generic-tree-with-checkboxes.component.html',
+  styleUrls: ['./generic-tree-with-checkboxes.component.scss'],
 })
-export class MatTreeWithCheckboxesComponent {
+export class GenericTreeWithCheckboxesComponent {
   @Input() treeDataSource: ItemNode[] = [];
 
   /** Map from flat node to nested node. This helps us find the nested node to be modified */
