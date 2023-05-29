@@ -200,7 +200,7 @@ function buildTree(): LayerItemNode[] {
 @Component({
   selector: 'efp-mat-tree-with-checkboxes',
   templateUrl: './mat-tree-with-checkboxes.component.html',
-  styleUrls: ['./mat-tree-with-checkboxes.component.scss']
+  styleUrls: ['./mat-tree-with-checkboxes.component.scss'],
 })
 export class MatTreeWithCheckboxesComponent {
   /** Map from flat node to nested node. This helps us find the nested node to be modified */
@@ -216,7 +216,30 @@ export class MatTreeWithCheckboxesComponent {
   dataSource: MatTreeFlatDataSource<LayerItemNode, LayerItemFlatNode>;
 
   /** The selection for checklist */
-  checklistSelection = new SelectionModel<LayerItemFlatNode>(true /* multiple */);
+  checklistSelection = new SelectionModel<LayerItemFlatNode>(
+    true /* multiple */
+  );
+
+  constructor() {
+    this.treeFlattener = new MatTreeFlattener(
+      this.transformer,
+      this.getLevel,
+      this.isExpandable,
+      this.getChildren
+    );
+    this.treeControl = new FlatTreeControl<LayerItemFlatNode>(
+      this.getLevel,
+      this.isExpandable
+    );
+    this.dataSource = new MatTreeFlatDataSource(
+      this.treeControl,
+      this.treeFlattener
+    );
+  }
+
+  ngOnInit(): void {
+    this.dataSource.data = buildTree();
+  }
 
   getLevel = (node: LayerItemFlatNode) => node.level;
 
@@ -244,32 +267,12 @@ export class MatTreeWithCheckboxesComponent {
     return flatNode;
   };
 
-  constructor() {
-    this.treeFlattener = new MatTreeFlattener(
-      this.transformer,
-      this.getLevel,
-      this.isExpandable,
-      this.getChildren
-    );
-    this.treeControl = new FlatTreeControl<LayerItemFlatNode>(
-      this.getLevel,
-      this.isExpandable
-    );
-    this.dataSource = new MatTreeFlatDataSource(
-      this.treeControl,
-      this.treeFlattener
-    );
-    this.dataSource.data = buildTree();
-  }
-
   /** Whether all the descendants of the node are selected. */
   descendantsAllSelected(node: LayerItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
     return (
       descendants.length > 0 &&
-      descendants.every((child) => {
-        return this.checklistSelection.isSelected(child);
-      })
+      descendants.every((child) => this.checklistSelection.isSelected(child))
     );
   }
 
@@ -286,9 +289,11 @@ export class MatTreeWithCheckboxesComponent {
   todoItemSelectionToggle(node: LayerItemFlatNode): void {
     this.checklistSelection.toggle(node);
     const descendants = this.treeControl.getDescendants(node);
-    this.checklistSelection.isSelected(node)
-      ? this.checklistSelection.select(...descendants)
-      : this.checklistSelection.deselect(...descendants);
+    if (this.checklistSelection.isSelected(node)) {
+      this.checklistSelection.select(...descendants);
+    } else {
+      this.checklistSelection.deselect(...descendants);
+    }
 
     // Force update for the parent
     descendants.forEach((child) => this.checklistSelection.isSelected(child));
@@ -318,9 +323,7 @@ export class MatTreeWithCheckboxesComponent {
     const descendants = this.treeControl.getDescendants(node);
     const descAllSelected =
       descendants.length > 0 &&
-      descendants.every((child) => {
-        return this.checklistSelection.isSelected(child);
-      });
+      descendants.every((child) => this.checklistSelection.isSelected(child));
     if (nodeSelected && !descAllSelected) {
       this.checklistSelection.deselect(node);
     } else if (!nodeSelected && descAllSelected) {
