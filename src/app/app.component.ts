@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ItemNode
-} from './mat-tree-with-checkboxes/mat-tree-with-checkboxes.component';
 import { LayerInfo } from './interface/layer-info.interface';
+import { ItemNode } from './model/generic-tree-node.model';
 
 @Component({
   selector: 'app-root',

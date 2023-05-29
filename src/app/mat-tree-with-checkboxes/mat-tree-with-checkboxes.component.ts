@@ -1,26 +1,11 @@
 import { Component, Input } from '@angular/core';
-import {FlatTreeControl} from "@angular/cdk/tree";
-import {MatTreeFlatDataSource, MatTreeFlattener} from "@angular/material/tree";
-import {SelectionModel} from "@angular/cdk/collections";
-
-/**
- * Node for item
- */
-export class ItemNode {
-  constructor(public item: string, public children: ItemNode[], public data?: any) {}
-}
-
-/**
- * Flat item node with expandable and level information
- */
-export class ItemFlatNode {
-  constructor(
-    public item: string,
-    public level: number,
-    public expandable: boolean,
-    public data?: any
-  ) {}
-}
+import { FlatTreeControl } from '@angular/cdk/tree';
+import {
+  MatTreeFlatDataSource,
+  MatTreeFlattener,
+} from '@angular/material/tree';
+import { SelectionModel } from '@angular/cdk/collections';
+import { ItemFlatNode, ItemNode } from '../model/generic-tree-node.model';
 
 @Component({
   selector: 'efp-mat-tree-with-checkboxes',
@@ -43,9 +28,7 @@ export class MatTreeWithCheckboxesComponent {
   dataSource: MatTreeFlatDataSource<ItemNode, ItemFlatNode>;
 
   /** The selection for checklist */
-  checklistSelection = new SelectionModel<ItemFlatNode>(
-    true /* multiple */
-  );
+  checklistSelection = new SelectionModel<ItemFlatNode>(true /* multiple */);
 
   constructor() {
     this.treeFlattener = new MatTreeFlattener(
