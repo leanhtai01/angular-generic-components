@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import {
   MatTreeFlatDataSource,
@@ -12,7 +12,7 @@ import { ItemFlatNode, ItemNode } from '../model/generic-tree-node.model';
   templateUrl: './generic-tree-with-checkboxes.component.html',
   styleUrls: ['./generic-tree-with-checkboxes.component.scss'],
 })
-export class GenericTreeWithCheckboxesComponent implements OnInit {
+export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
   @Input() treeDataSource: ItemNode[] = [];
 
   /** Map from flat node to nested node. This helps us find the nested node to be modified */
@@ -45,6 +45,10 @@ export class GenericTreeWithCheckboxesComponent implements OnInit {
       this.treeControl,
       this.treeFlattener
     );
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.dataSource.data = changes['treeDataSource'].currentValue;
   }
 
   ngOnInit(): void {
