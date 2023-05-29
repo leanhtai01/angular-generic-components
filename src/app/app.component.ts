@@ -121,10 +121,10 @@ export class AppComponent implements OnInit {
   treeDataSource: ItemNode[] = [];
 
   ngOnInit(): void {
-    this.treeDataSource = this.buildLayerWithManagersTree(this.DATA);
+    this.treeDataSource = this.buildLayerTree(this.DATA);
   }
 
-  buildLayerWithManagersTree(data: LayerInfo): ItemNode[] {
+  buildLayerTree(data: LayerInfo): ItemNode[] {
     const LAYERS: any = {
       layer1: 'Layer 1',
       layer2: 'Layer 2',
