@@ -34,6 +34,8 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
 
   searchKeyword: string = '';
 
+  isNoResult: boolean = false;
+
   constructor() {
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,
@@ -173,9 +175,23 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
     return null;
   }
 
+  getSearchMatchesCount(keyword: string): number {
+    let count = 0;
+
+    for (const [value] of this.flatNodeMap.entries()) {
+      if (value.item.toLowerCase().includes(keyword.toLowerCase())) {
+        count++;
+      }
+    }
+
+    return count;
+  }
+
   search(keyboardEvent: KeyboardEvent): void {
     const keyword: string = (keyboardEvent.target as HTMLInputElement).value;
     this.searchKeyword = keyword;
+
+    this.isNoResult = this.getSearchMatchesCount(keyword) === 0;
 
     if (this.searchKeyword) {
       this.treeControl.expandAll();

@@ -1,28 +1,41 @@
+<!-- search box -->
 <mat-form-field>
   <input matInput [placeholder]="searchPlaceholder" (keyup)="search($event)">
   <mat-icon class="ml-2 position-absolute" style="top: 4px; right: 10px;">search</mat-icon>
 </mat-form-field>
 
-<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-  <mat-tree-node *matTreeNodeDef="let node" [style.display]="isDisplayed(node) ? 'flex' : 'none'" matTreeNodeToggle
-    matTreeNodePadding>
-    <mat-checkbox class="checklist-leaf-node" [checked]="checklistSelection.isSelected(node)"
-      (change)="leafItemSelectionToggle(node)">
-      {{node.item}}
-    </mat-checkbox>
-  </mat-tree-node>
+<!-- tree with checkboxes -->
+<div *ngIf="!isNoResult">
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
 
-  <mat-tree-node *matTreeNodeDef="let node; when: hasChild" [style.display]="isDisplayed(node) ? 'flex' : 'none'"
-    matTreeNodePadding>
-    <mat-checkbox [checked]="descendantsAllSelected(node)" [indeterminate]="descendantsPartiallySelected(node)"
-      (change)="itemSelectionToggle(node)">{{node.item}}</mat-checkbox>
-    <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.item">
-      <mat-icon class="mat-icon-rtl-mirror">
-        {{treeControl.isExpanded(node) ? 'arrow_drop_down' : 'arrow_right'}}
-      </mat-icon>
-    </button>
-  </mat-tree-node>
-</mat-tree>
+    <!-- leaf node -->
+    <mat-tree-node *matTreeNodeDef="let node" [style.display]="isDisplayed(node) ? 'flex' : 'none'" matTreeNodeToggle
+      matTreeNodePadding>
+      <mat-checkbox class="checklist-leaf-node" [checked]="checklistSelection.isSelected(node)"
+        (change)="leafItemSelectionToggle(node)">
+        {{node.item}}
+      </mat-checkbox>
+    </mat-tree-node>
 
+    <!-- node that have child -->
+    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" [style.display]="isDisplayed(node) ? 'flex' : 'none'"
+      matTreeNodePadding>
+      <mat-checkbox [checked]="descendantsAllSelected(node)" [indeterminate]="descendantsPartiallySelected(node)"
+        (change)="itemSelectionToggle(node)">{{node.item}}</mat-checkbox>
+      <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.item">
+        <mat-icon class="mat-icon-rtl-mirror">
+          {{treeControl.isExpanded(node) ? 'arrow_drop_down' : 'arrow_right'}}
+        </mat-icon>
+      </button>
+    </mat-tree-node>
+  </mat-tree>
+</div>
+
+<!-- no result found -->
+<div *ngIf="isNoResult">
+  <div>No results found</div>
+</div>
+
+<!-- action buttons -->
 <button (click)="selectAll()">SELECT ALL</button>
 <button (click)="clearAll()">CLEAR ALL</button>
