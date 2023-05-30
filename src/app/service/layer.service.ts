@@ -36,6 +36,7 @@ export class LayerService {
           managerEmail: any;
           orgId: any;
           orgName: any;
+          orgLevel: any;
         }) => {
           const manager: ItemNode = {
             item: managerInfo.managerName,
@@ -46,6 +47,7 @@ export class LayerService {
               managerEmail: managerInfo.managerEmail,
               orgId: managerInfo.orgId,
               orgName: managerInfo.orgName,
+              orgLevel: managerInfo.orgLevel
             },
           };
 
