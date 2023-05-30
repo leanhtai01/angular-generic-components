@@ -31,6 +31,8 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
   /** The selection for checklist */
   checklistSelection = new SelectionModel<ItemFlatNode>(true /* multiple */);
 
+  searchKeyword: string = '';
+
   constructor() {
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,
@@ -170,8 +172,32 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
     return null;
   }
 
-  applyFilter(keyboardEvent: KeyboardEvent): void {
-    const filterText: string = (keyboardEvent.target as HTMLInputElement).value;
-    console.log(`Receive text ${filterText}`);
+  search(keyboardEvent: KeyboardEvent): void {
+    const keyword: string = (keyboardEvent.target as HTMLInputElement).value;
+    this.searchKeyword = keyword;
+
+    if (this.searchKeyword) {
+      this.treeControl.expandAll();
+    } else {
+      this.treeControl.collapseAll();
+    }
+  }
+
+  isDisplayed(node: ItemFlatNode): boolean {
+    return (
+      !this.searchKeyword ||
+      node.item
+        .toLowerCase()
+        .indexOf(this.searchKeyword?.toLocaleLowerCase()) !== -1 ||
+      (node.level === 0 &&
+        this.treeControl
+          .getDescendants(node)
+          .some(
+            (descendant) =>
+              descendant.item
+                .toLowerCase()
+                .indexOf(this.searchKeyword?.toLowerCase()) !== -1
+          ))
+    );
   }
 }
