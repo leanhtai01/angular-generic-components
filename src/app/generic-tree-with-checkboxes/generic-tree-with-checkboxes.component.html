@@ -1,5 +1,6 @@
 <mat-form-field>
   <input matInput [placeholder]="searchPlaceholder" (keyup)="search($event)">
+  <mat-icon class="ml-2 position-absolute" style="top: 4px; right: 10px;">search</mat-icon>
 </mat-form-field>
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
   <mat-tree-node *matTreeNodeDef="let node" [style.display]="isDisplayed(node) ? 'flex' : 'none'" matTreeNodeToggle
