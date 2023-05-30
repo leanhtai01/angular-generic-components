@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { ItemNode } from '../model/generic-tree-node.model';
+import { ItemFlatNode, ItemNode } from '../model/generic-tree-node.model';
 import { LayerInfo } from '../interface/layer-info.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LayerService {
+  toOrgIds(itemFlatNodes: ItemFlatNode[]): string[] {
+    return itemFlatNodes.filter(node => node.data).map(node => node.data.orgId);
+  }
+
   buildLayerTree(data: LayerInfo): ItemNode[] {
     const LAYERS: any = {
       layer1: 'Layer 1',

@@ -129,5 +129,6 @@ export class AppComponent implements OnInit {
 
   onLayerChanged(selectedLayers: ItemFlatNode[]) {
     console.log(selectedLayers);
+    console.log(this.layerService.toOrgIds(selectedLayers));
   }
 }
