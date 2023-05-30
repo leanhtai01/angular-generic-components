@@ -4,4 +4,5 @@ export interface ManagerInfo {
   managerEmail: string;
   orgId: string;
   orgName: string;
+  orgLevel: string;
 }

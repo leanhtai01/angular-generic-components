@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
         managerEmail: 'mike.salvino@dxc.com',
         orgId: '65000001',
         orgName: 'DXC Technology',
+        orgLevel: 'L1',
       },
     ],
     layer2: [
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit {
         managerEmail: 'ken.sharp@dxc.com',
         orgId: '65000026',
         orgName: 'Corp Fn - Finance',
+        orgLevel: 'L2',
       },
       {
         managerId: 655831,
@@ -33,6 +35,7 @@ export class AppComponent implements OnInit {
         managerEmail: 'bill.deckelman@dxc.com',
         orgId: '65000027',
         orgName: 'Corp Fn - Legal',
+        orgLevel: 'L2',
       },
     ],
     layer3: [
@@ -42,6 +45,7 @@ export class AppComponent implements OnInit {
         managerEmail: 'ncopley@dxc.com',
         orgId: '65017700',
         orgName: 'Chief of Staff – APAC',
+        orgLevel: 'L3',
       },
       {
         managerId: 11571318,
@@ -49,6 +53,7 @@ export class AppComponent implements OnInit {
         managerEmail: 'Jimmie.owens@dxc.com',
         orgId: '65000186',
         orgName: 'Global Cyber Security',
+        orgLevel: 'L3',
       },
     ],
     layer4: [
@@ -58,6 +63,7 @@ export class AppComponent implements OnInit {
         managerEmail: 'louanne.gilmore@dxc.com',
         orgId: '65018128',
         orgName: 'Global Delivery Assurance',
+        orgLevel: 'L4',
       },
       {
         managerId: 11590932,
@@ -65,6 +71,7 @@ export class AppComponent implements OnInit {
         managerEmail: 'robbert.wentink@dxc.com',
         orgId: '65017460',
         orgName: 'Nordics',
+        orgLevel: 'L4',
       },
     ],
     layer5: [
@@ -74,6 +81,7 @@ export class AppComponent implements OnInit {
         managerEmail: 'kamilia.chouchane@dxc.com',
         orgId: '65018438',
         orgName: 'BPS Poland GD- Operations',
+        orgLevel: 'L5',
       },
       {
         managerId: 11735404,
@@ -81,6 +89,7 @@ export class AppComponent implements OnInit {
         managerEmail: 'sean.pasternak@dxc.com',
         orgId: '65016596',
         orgName: 'External Communications, PR',
+        orgLevel: 'L5',
       },
     ],
     layer6: [
@@ -90,6 +99,7 @@ export class AppComponent implements OnInit {
         managerEmail: 'glen.ralph@dxc.com',
         orgId: '65015082',
         orgName: 'Cloud Delivery Advisory',
+        orgLevel: 'L6',
       },
       {
         managerId: 11755883,
@@ -97,6 +107,7 @@ export class AppComponent implements OnInit {
         managerEmail: 'mehmet.yaman@dxc.com',
         orgId: '65017872',
         orgName: 'ES CA BC Public Sector - Advanced Solutions',
+        orgLevel: 'L6',
       },
     ],
     layer7: [
@@ -106,6 +117,7 @@ export class AppComponent implements OnInit {
         managerEmail: 'arnita.oelholm@dxc.com',
         orgId: '65018034',
         orgName: 'Regional Payroll',
+        orgLevel: 'L7',
       },
       {
         managerId: 11598689,
@@ -113,6 +125,7 @@ export class AppComponent implements OnInit {
         managerEmail: 'renalett.guevarra@dxc.com',
         orgId: '65015487',
         orgName: 'Cloud Infra / ITO PH - AMS/EU - Batch Shared 2',
+        orgLevel: 'L7',
       },
     ],
   };
