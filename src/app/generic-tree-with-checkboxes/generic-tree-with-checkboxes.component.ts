@@ -169,4 +169,9 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
     }
     return null;
   }
+
+  applyFilter(keyboardEvent: KeyboardEvent): void {
+    const filterText: string = (keyboardEvent.target as HTMLInputElement).value;
+    console.log(`Receive text ${filterText}`);
+  }
 }
