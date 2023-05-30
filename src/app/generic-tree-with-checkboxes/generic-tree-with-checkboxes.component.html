@@ -2,6 +2,7 @@
   <input matInput [placeholder]="searchPlaceholder" (keyup)="search($event)">
   <mat-icon class="ml-2 position-absolute" style="top: 4px; right: 10px;">search</mat-icon>
 </mat-form-field>
+
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
   <mat-tree-node *matTreeNodeDef="let node" [style.display]="isDisplayed(node) ? 'flex' : 'none'" matTreeNodeToggle
     matTreeNodePadding>
@@ -22,3 +23,6 @@
     </button>
   </mat-tree-node>
 </mat-tree>
+
+<button (click)="selectAll()">SELECT ALL</button>
+<button (click)="clearAll()">CLEAR ALL</button>

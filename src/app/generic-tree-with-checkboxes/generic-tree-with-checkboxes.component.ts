@@ -201,4 +201,34 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
           ))
     );
   }
+
+  selectAll() {
+    const firstLevelNodes = this.treeControl.dataNodes.filter(
+      (node: ItemFlatNode) => node.level === 0
+    );
+
+    firstLevelNodes.forEach((node) => {
+      this.checklistSelection.select(node);
+      this.treeControl.getDescendants(node).forEach((descendant) => {
+        this.checklistSelection.select(descendant);
+      });
+    });
+
+    this.onSelectionChanged.emit(this.checklistSelection.selected);
+  }
+
+  clearAll() {
+    const firstLevelNodes = this.treeControl.dataNodes.filter(
+      (node: ItemFlatNode) => node.level === 0
+    );
+
+    firstLevelNodes.forEach((node) => {
+      this.checklistSelection.deselect(node);
+      this.treeControl.getDescendants(node).forEach((descendant) => {
+        this.checklistSelection.deselect(descendant);
+      });
+    });
+
+    this.onSelectionChanged.emit(this.checklistSelection.selected);
+  }
 }
