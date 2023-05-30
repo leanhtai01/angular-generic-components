@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import {
   MatTreeFlatDataSource,
@@ -14,6 +14,7 @@ import { ItemFlatNode, ItemNode } from '../model/generic-tree-node.model';
 })
 export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
   @Input() treeDataSource: ItemNode[] = [];
+  @Output() onSelectionChanged = new EventEmitter<ItemFlatNode[]>();
 
   /** Map from flat node to nested node. This helps us find the nested node to be modified */
   flatNodeMap = new Map<ItemFlatNode, ItemNode>();
@@ -99,8 +100,8 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
     return result && !this.descendantsAllSelected(node);
   }
 
-  /** Toggle the to-do item selection. Select/deselect all the descendants node */
-  todoItemSelectionToggle(node: ItemFlatNode): void {
+  /** Toggle the item selection. Select/deselect all the descendants node */
+  itemSelectionToggle(node: ItemFlatNode): void {
     this.checklistSelection.toggle(node);
     const descendants = this.treeControl.getDescendants(node);
     if (this.checklistSelection.isSelected(node)) {
@@ -112,14 +113,18 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
     // Force update for the parent
     descendants.forEach((child) => this.checklistSelection.isSelected(child));
     this.checkAllParentsSelection(node);
-    console.log(this.checklistSelection.selected);
+
+    // inform parent for selection changes
+    this.onSelectionChanged.emit(this.checklistSelection.selected);
   }
 
-  /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
-  todoLeafItemSelectionToggle(node: ItemFlatNode): void {
+  /** Toggle a leaf item selection. Check all the parents to see if they changed */
+  leafItemSelectionToggle(node: ItemFlatNode): void {
     this.checklistSelection.toggle(node);
     this.checkAllParentsSelection(node);
-    console.log(this.checklistSelection.selected);
+
+    // inform parent for selection changes
+    this.onSelectionChanged.emit(this.checklistSelection.selected);
   }
 
   /* Checks all the parents when a leaf node is selected/unselected */

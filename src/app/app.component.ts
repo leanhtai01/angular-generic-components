@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LayerInfo } from './interface/layer-info.interface';
-import { ItemNode } from './model/generic-tree-node.model';
+import { ItemFlatNode, ItemNode } from './model/generic-tree-node.model';
 import { LayerService } from './service/layer.service';
 
 @Component({
@@ -125,5 +125,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.treeDataSource = this.layerService.buildLayerTree(this.DATA);
+  }
+
+  onLayerChanged(selectedLayers: ItemFlatNode[]) {
+    console.log(selectedLayers);
   }
 }
