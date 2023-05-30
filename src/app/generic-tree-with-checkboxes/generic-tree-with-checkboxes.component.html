@@ -1,5 +1,5 @@
 <mat-form-field>
-  <input matInput placeholder="Search region or country" (keyup)="search($event)">
+  <input matInput [placeholder]="searchPlaceholder" (keyup)="search($event)">
 </mat-form-field>
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
   <mat-tree-node *matTreeNodeDef="let node" [style.display]="isDisplayed(node) ? 'flex' : 'none'" matTreeNodeToggle

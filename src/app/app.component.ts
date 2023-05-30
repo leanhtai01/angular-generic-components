@@ -119,6 +119,8 @@ export class AppComponent implements OnInit {
 
   title = 'angular-generic-components';
 
+  searchPlaceholder: string = 'Search region or country';
+
   treeDataSource: ItemNode[] = [];
 
   constructor(private layerService: LayerService) {}

@@ -14,6 +14,7 @@ import { ItemFlatNode, ItemNode } from '../model/generic-tree-node.model';
 })
 export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
   @Input() treeDataSource: ItemNode[] = [];
+  @Input() searchPlaceholder: string = 'Keyword';
   @Output() onSelectionChanged = new EventEmitter<ItemFlatNode[]>();
 
   /** Map from flat node to nested node. This helps us find the nested node to be modified */
