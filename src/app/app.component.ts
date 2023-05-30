@@ -127,8 +127,8 @@ export class AppComponent implements OnInit {
     this.treeDataSource = this.layerService.buildLayerTree(this.DATA);
   }
 
-  onLayerChanged(selectedLayers: ItemFlatNode[]) {
-    console.log(selectedLayers);
-    console.log(this.layerService.toOrgIds(selectedLayers));
+  onLayerChanged(selectedItemFlatNodes: ItemFlatNode[]) {
+    console.log(selectedItemFlatNodes);
+    console.log(this.layerService.toOrgIds(selectedItemFlatNodes));
   }
 }
