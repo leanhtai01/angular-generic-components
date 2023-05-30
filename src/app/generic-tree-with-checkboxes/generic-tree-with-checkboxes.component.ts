@@ -230,6 +230,7 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
       });
     });
 
+    this.treeControl.collapseAll();
     this.onSelectionChanged.emit(this.checklistSelection.selected);
   }
 
@@ -245,6 +246,7 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
       });
     });
 
+    this.treeControl.collapseAll();
     this.onSelectionChanged.emit(this.checklistSelection.selected);
   }
 }
