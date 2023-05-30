@@ -1,6 +1,6 @@
 <!-- search box -->
 <mat-form-field>
-  <input matInput [placeholder]="searchPlaceholder" (keyup)="search($event)">
+  <input #searchBox matInput [placeholder]="searchPlaceholder" (keyup)="search($event)">
   <mat-icon class="ml-2 position-absolute" style="top: 4px; right: 10px;">search</mat-icon>
 </mat-form-field>
 

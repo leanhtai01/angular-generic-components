@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import {
   MatTreeFlatDataSource,
@@ -16,6 +16,8 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
   @Input() treeDataSource: ItemNode[] = [];
   @Input() searchPlaceholder: string = 'Keyword';
   @Output() onSelectionChanged = new EventEmitter<ItemFlatNode[]>();
+
+  @ViewChild('searchBox') searchBox: any;
 
   /** Map from flat node to nested node. This helps us find the nested node to be modified */
   flatNodeMap = new Map<ItemFlatNode, ItemNode>();
@@ -231,6 +233,7 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
     });
 
     this.treeControl.collapseAll();
+    this.clearSearchBox();
     this.onSelectionChanged.emit(this.checklistSelection.selected);
   }
 
@@ -247,6 +250,12 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
     });
 
     this.treeControl.collapseAll();
+    this.clearSearchBox();
     this.onSelectionChanged.emit(this.checklistSelection.selected);
+  }
+
+  clearSearchBox() {
+    this.searchBox.nativeElement.value = '';
+    this.searchKeyword = '';
   }
 }
