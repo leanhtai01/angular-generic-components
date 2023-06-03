@@ -269,6 +269,5 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
 
   clearSearchBox() {
     this.searchBox.nativeElement.value = '';
-    this.searchKeyword = '';
   }
 }
