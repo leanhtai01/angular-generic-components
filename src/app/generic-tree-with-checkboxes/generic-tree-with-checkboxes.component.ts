@@ -30,6 +30,7 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
   treeFlattener: MatTreeFlattener<ItemNode, ItemFlatNode>;
 
   dataSource: MatTreeFlatDataSource<ItemNode, ItemFlatNode>;
+  cacheData: ItemNode[] = [];
 
   /** The selection for checklist */
   checklistSelection = new SelectionModel<ItemFlatNode>(true /* multiple */);
@@ -57,10 +58,12 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.dataSource.data = changes['treeDataSource'].currentValue;
+    this.cacheData = changes['treeDataSource'].currentValue;
   }
 
   ngOnInit(): void {
     this.dataSource.data = this.treeDataSource;
+    this.cacheData = this.treeDataSource;
   }
 
   getLevel = (node: ItemFlatNode) => node.level;
@@ -191,36 +194,44 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
 
   search(keyboardEvent: KeyboardEvent): void {
     const keyword: string = (keyboardEvent.target as HTMLInputElement).value;
-    this.searchKeyword = keyword;
+    let data = structuredClone(this.cacheData);
 
-    this.isNoResult = this.getSearchMatchesCount(keyword) === 0;
+    if (keyword) {
+      data = data.filter(
+        (root: any) =>
+          this.compareIgnoreCase(root.item, keyword) ||
+          root.children.some((child: any) =>
+            this.compareIgnoreCase(child.item, keyword)
+          )
+      );
 
-    if (this.searchKeyword) {
+      for (let root of data) {
+        let matchedChildren: ItemNode[] = [];
+
+        for (let child of root.children) {
+          if (this.compareIgnoreCase(child.item, keyword)) {
+            matchedChildren.push(child);
+          }
+        }
+
+        root.children = matchedChildren;
+      }
+
+      this.dataSource.data = data;
       this.treeControl.expandAll();
     } else {
+      this.dataSource.data = this.cacheData;
       this.treeControl.collapseAll();
     }
   }
 
-  isDisplayed(node: ItemFlatNode): boolean {
-    return (
-      !this.searchKeyword ||
-      node.item
-        .toLowerCase()
-        .indexOf(this.searchKeyword?.toLocaleLowerCase()) !== -1 ||
-      (node.level === 0 &&
-        this.treeControl
-          .getDescendants(node)
-          .some(
-            (descendant) =>
-              descendant.item
-                .toLowerCase()
-                .indexOf(this.searchKeyword?.toLowerCase()) !== -1
-          ))
-    );
+  compareIgnoreCase(s1: string, s2: string) {
+    return s1.toLocaleLowerCase().indexOf(s2.toLocaleLowerCase()) !== -1;
   }
 
   selectAll() {
+    this.dataSource.data = this.cacheData;
+
     const firstLevelNodes = this.treeControl.dataNodes.filter(
       (node: ItemFlatNode) => node.level === 0
     );
@@ -238,6 +249,8 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
   }
 
   clearAll() {
+    this.dataSource.data = this.cacheData;
+
     const firstLevelNodes = this.treeControl.dataNodes.filter(
       (node: ItemFlatNode) => node.level === 0
     );
