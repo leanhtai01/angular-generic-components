@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { GenericTreeWithCheckboxesComponent } from './generic-tree-with-checkboxes/generic-tree-with-checkboxes.component';
 import { MatInputModule } from '@angular/material/input';
+import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
 
 @NgModule({
   declarations: [AppComponent, GenericTreeWithCheckboxesComponent],
@@ -20,6 +21,9 @@ import { MatInputModule } from '@angular/material/input';
     MatCheckboxModule,
     MatIconModule,
     MatInputModule,
+    CdkVirtualScrollViewport,
+    CdkFixedSizeVirtualScroll,
+    CdkVirtualForOf,
   ],
   providers: [],
   bootstrap: [AppComponent],

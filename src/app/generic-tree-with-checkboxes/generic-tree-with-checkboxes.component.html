@@ -6,29 +6,16 @@
 
 <!-- tree with checkboxes -->
 <div *ngIf="!isNoResult">
-  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-
-    <!-- leaf node -->
-    <mat-tree-node *matTreeNodeDef="let node" [style.display]="isDisplayed(node) ? 'flex' : 'none'" matTreeNodeToggle
-      matTreeNodePadding>
-      <mat-checkbox class="checklist-leaf-node" [checked]="checklistSelection.isSelected(node)"
-        (change)="leafItemSelectionToggle(node)">
-        {{node.item}}
-      </mat-checkbox>
-    </mat-tree-node>
-
-    <!-- node that have child -->
-    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" [style.display]="isDisplayed(node) ? 'flex' : 'none'"
-      matTreeNodePadding>
-      <mat-checkbox [checked]="descendantsAllSelected(node)" [indeterminate]="descendantsPartiallySelected(node)"
-        (change)="itemSelectionToggle(node)">{{node.item}}</mat-checkbox>
-      <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.item">
-        <mat-icon class="mat-icon-rtl-mirror">
-          {{treeControl.isExpanded(node) ? 'arrow_drop_down' : 'arrow_right'}}
-        </mat-icon>
-      </button>
-    </mat-tree-node>
-  </mat-tree>
+  <cdk-virtual-scroll-viewport itemSize="18" class="virtual-scroll-container">
+    <ng-container *cdkVirtualFor="let node of dataSource">
+      <div [style.padding-left]="node.level * 24 + 'px'">
+        <button (click)="treeControl.toggle(node)" *ngIf="node.level === 0">
+          {{ treeControl.isExpanded(node) ? '-' : '+' }}
+        </button>
+        {{ node.item }}
+      </div>
+    </ng-container>
+  </cdk-virtual-scroll-viewport>
 </div>
 
 <!-- no result found -->
