@@ -139,7 +139,7 @@ export class AppComponent implements OnInit {
   constructor(private layerService: LayerService) {}
 
   ngOnInit(): void {
-    this.treeDataSource = this.layerService.buildLayerTree(this.DATA);
+    this.treeDataSource = this.layerService.buildTree();
   }
 
   onLayerChanged(selectedItemFlatNodes: ItemFlatNode[]) {

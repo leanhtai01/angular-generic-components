@@ -10,53 +10,33 @@ export class LayerService {
     return itemFlatNodes.filter(node => node.data).map(node => node.data.orgId);
   }
 
-  buildLayerTree(data: LayerInfo): ItemNode[] {
-    const LAYERS: any = {
-      layer1: 'Layer 1',
-      layer2: 'Layer 2',
-      layer3: 'Layer 3',
-      layer4: 'Layer 4',
-      layer5: 'Layer 5',
-      layer6: 'Layer 6',
-      layer7: 'Layer 7',
-    };
+  buildTree(): ItemNode[] {
+    let listNode: ItemNode[] = [];
 
-    const listNode: ItemNode[] = [];
-
-    Object.entries(data).forEach(([key, managers]) => {
+    for (let i = 0; i < 6; ++i) {
       const layer: ItemNode = {
-        item: LAYERS[key],
-        children: [],
+        item: `Layer ${i}`,
+        children: []
       };
 
-      managers.forEach(
-        (managerInfo: {
-          managerName: any;
-          managerId: any;
-          managerEmail: any;
-          orgId: any;
-          orgName: any;
-          orgLevel: any;
-        }) => {
-          const manager: ItemNode = {
-            item: managerInfo.managerName,
-            children: [],
-            data: {
-              managerId: managerInfo.managerId,
-              managerName: managerInfo.managerName,
-              managerEmail: managerInfo.managerEmail,
-              orgId: managerInfo.orgId,
-              orgName: managerInfo.orgName,
-              orgLevel: managerInfo.orgLevel
-            },
-          };
+      for (let j = 0; j < 2000; ++j) {
+        const manager: ItemNode = {
+          item: `Manager ${j}`,
+          children: [],
+          data: {
+            managerId: j,
+            managerName: `Manager ${j}`,
+            managerEmail: `manager${j}@gmail.com`,
+            orgId: `OrgId ${j}`,
+            orgName: `OrgName ${j}`,
+          },
+        };
 
-          layer.children.push(manager);
-        }
-      );
+        layer.children.push(manager);
+      }
 
       listNode.push(layer);
-    });
+    }
 
     return listNode;
   }

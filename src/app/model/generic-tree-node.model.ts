@@ -17,6 +17,7 @@ export class ItemFlatNode {
     public item: string,
     public level: number,
     public expandable: boolean,
+    public isVisible: boolean = true,
     public data?: any
   ) {}
 }
