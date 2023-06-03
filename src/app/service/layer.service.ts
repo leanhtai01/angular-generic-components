@@ -21,14 +21,14 @@ export class LayerService {
 
       for (let j = 0; j < 2000; ++j) {
         const manager: ItemNode = {
-          item: `Manager ${j}`,
+          item: `Layer ${i} - Manager ${j}`,
           children: [],
           data: {
             managerId: j,
-            managerName: `Manager ${j}`,
-            managerEmail: `manager${j}@gmail.com`,
-            orgId: `OrgId ${j}`,
-            orgName: `OrgName ${j}`,
+            managerName: `Layer ${i} - Manager ${j}`,
+            managerEmail: `Layer ${i} - manager${j}@gmail.com`,
+            orgId: `Layer ${i} - OrgId ${j}`,
+            orgName: `Layer ${i} - OrgName ${j}`,
           },
         };
 
