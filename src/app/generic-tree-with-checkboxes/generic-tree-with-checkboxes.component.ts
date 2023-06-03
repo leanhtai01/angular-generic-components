@@ -35,8 +35,6 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
   /** The selection for checklist */
   checklistSelection = new SelectionModel<ItemFlatNode>(true /* multiple */);
 
-  searchKeyword: string = '';
-
   isNoResult: boolean = false;
 
   constructor() {
