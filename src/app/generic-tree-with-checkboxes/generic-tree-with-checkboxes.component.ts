@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import {
   MatTreeFlatDataSource,
@@ -6,6 +15,7 @@ import {
 } from '@angular/material/tree';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ItemFlatNode, ItemNode } from '../model/generic-tree-node.model';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'efp-generic-tree-with-checkboxes',
@@ -31,6 +41,8 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
 
   dataSource: MatTreeFlatDataSource<ItemNode, ItemFlatNode>;
   cacheData: ItemNode[] = [];
+
+  keywordChanged: Subject<string> = new Subject<string>();
 
   /** The selection for checklist */
   checklistSelection = new SelectionModel<ItemFlatNode>(true /* multiple */);
@@ -62,6 +74,9 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.dataSource.data = this.treeDataSource;
     this.cacheData = this.treeDataSource;
+    this.keywordChanged
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((keyword) => this.search(keyword));
   }
 
   getLevel = (node: ItemFlatNode) => node.level;
@@ -190,8 +205,11 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
     return count;
   }
 
-  search(keyboardEvent: KeyboardEvent): void {
-    const keyword: string = (keyboardEvent.target as HTMLInputElement).value;
+  onSearchBoxKeyup(keyboardEvent: KeyboardEvent): void {
+    this.keywordChanged.next((keyboardEvent.target as HTMLInputElement).value);
+  }
+
+  search(keyword: string): void {
     let data = structuredClone(this.cacheData);
 
     if (keyword) {
