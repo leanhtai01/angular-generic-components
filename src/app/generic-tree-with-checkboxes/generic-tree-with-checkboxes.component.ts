@@ -75,7 +75,7 @@ export class GenericTreeWithCheckboxesComponent implements OnInit, OnChanges {
     this.dataSource.data = this.treeDataSource;
     this.cacheData = this.treeDataSource;
     this.keywordChanged
-      .pipe(debounceTime(500), distinctUntilChanged())
+      .pipe(debounceTime(1), distinctUntilChanged())
       .subscribe((keyword) => this.search(keyword));
   }
 
